@@ -186,7 +186,7 @@ export class AngularEditorToolbarComponent implements AfterViewInit {
       hideOnPaletteClick: true,
       onChange: this.updateFgColor.bind(this),
       onInput: this.updateFgColor.bind(this),
-      palette: '#fff #808080 #000 #996e36 #f55525 #ffe438 #88dd20 #22e0cd #269aff #bb1cd4',
+      palette: '#000000 #2a7eb7 #3c9640 #f7c502 #ba2b27',
       paletteCols: 1,
       previewPadding: 0,
       previewSize: 0,
