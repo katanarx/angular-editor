@@ -1,0 +1,6 @@
+export * from './lib/angular-editor.service';
+export * from './lib/angular-editor.component';
+export * from './lib/angular-editor-toolbar.component';
+export * from './lib/angular-editor.module';
+export { AngularEditorConfig, CustomClass } from './lib/config';
+//# sourceMappingURL=public-api.d.ts.map
