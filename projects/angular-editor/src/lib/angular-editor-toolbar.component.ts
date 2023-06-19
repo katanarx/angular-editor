@@ -16,13 +16,19 @@ import {CustomClass} from './config';
 import {SelectOption} from './ae-select/ae-select.component';
 import { Observable } from 'rxjs';
 
+import * as JSColor from '@eastdesire/jscolor';
+
+interface ColorpickerInstance {
+  show: () => void;
+};
+
 @Component({
   selector: 'angular-editor-toolbar',
   templateUrl: './angular-editor-toolbar.component.html',
   styleUrls: ['./angular-editor-toolbar.component.scss'],
 })
 
-export class AngularEditorToolbarComponent {
+export class AngularEditorToolbarComponent implements AfterViewInit {
   htmlMode = false;
   linkSelected = false;
   block = 'default';
@@ -159,6 +165,8 @@ export class AngularEditorToolbarComponent {
   @Output() execute: EventEmitter<string> = new EventEmitter<string>();
 
   @ViewChild('fileInput', {static: true}) myInputFile: ElementRef;
+  @ViewChild('fgInput') fgInput: ElementRef;
+  private colorPicker: ColorpickerInstance;
 
   public get isLinkButtonDisabled(): boolean {
     return this.htmlMode || !Boolean(this.editorService.selectedText);
@@ -170,6 +178,20 @@ export class AngularEditorToolbarComponent {
     private er: ElementRef,
     @Inject(DOCUMENT) private doc: any
   ) {
+  }
+
+  ngAfterViewInit() {
+    this.colorPicker = new JSColor(this.fgInput.nativeElement, {
+      container: this.er.nativeElement,
+      closeButton: true,
+      format: 'hex',
+      height: 80,
+      onChange: this.updateFgColor.bind(this),
+      onUpdate: this.updateFgColor.bind(this),
+      palette: '#fff #808080 #000 #996e36 #f55525 #ffe438 #88dd20 #22e0cd #269aff #bb1cd4',
+      paletteCols: 11,
+      position: 'bottom',
+    });
   }
 
   /**
@@ -381,5 +403,13 @@ export class AngularEditorToolbarComponent {
   focus() {
     this.execute.emit('focus');
     console.log('focused');
+  }
+
+  updateFgColor() {
+    this.insertColor(this.fgInput.nativeElement.value, 'textColor');
+  }
+
+  showColorPicker() {
+    this.colorPicker.show();
   }
 }
