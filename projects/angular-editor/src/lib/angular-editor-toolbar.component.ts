@@ -1,4 +1,14 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Inject, Input, Output, Renderer2, ViewChild} from '@angular/core';
+import {
+  Component,
+  ContentChild,
+  ElementRef,
+  EventEmitter,
+  Inject,
+  Input,
+  Output,
+  Renderer2, TemplateRef,
+  ViewChild
+} from '@angular/core';
 import {AngularEditorService, UploadResponse} from './angular-editor.service';
 import {HttpResponse, HttpEvent} from '@angular/common/http';
 import {DOCUMENT} from '@angular/common';
@@ -356,9 +366,9 @@ export class AngularEditorToolbarComponent implements AfterViewInit {
     const file = event.target.files[0];
     if (file.type.includes('image/')) {
         if (this.upload) {
-          this.upload(file).subscribe(() => this.watchUploadImage);
+          this.upload(file).subscribe((response: HttpResponse<UploadResponse>) => this.watchUploadImage(response, event));
         } else if (this.uploadUrl) {
-            this.editorService.uploadImage(file).subscribe(() => this.watchUploadImage);
+            this.editorService.uploadImage(file).subscribe((response: HttpResponse<UploadResponse>) => this.watchUploadImage(response, event));
         } else {
           const reader = new FileReader();
           reader.onload = (e: ProgressEvent) => {
